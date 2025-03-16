@@ -1,15 +1,76 @@
 <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transforming Data with Promise Chaining</title>
+    <style>
+        #output {
+            margin: 20px;
+            padding: 10px;
+            border: 2px solid #333;
+            font-size: 20px;
+            width: fit-content;
+        }
+    </style>
+</head>
+<body>
+    <h2>Transforming Data with Promise Chaining</h2>
+    <input id="ip" type="number" placeholder="Enter a number">
+    <button id="btn">Transform</button>
+    <div id="output">Waiting for result...</div>
 
-<html>
-  <head>
-    <link rel="stylesheet" href="styles.css" />
-  </head>
+    <script>
+        document.getElementById("btn").addEventListener("click", () => {
+            const number = parseFloat(document.getElementById("ip").value);
+            if (isNaN(number)) {
+                document.getElementById("output").textContent = "Please enter a valid number.";
+                return;
+            }
 
-  <body>
-    <!-- do not change this code -->
-    <input type="number" id="ip" />
-    <button id="btn">Start</button>
-    <div id="output"></div>
-    <script type="text/javascript" src="./script.js"></script>
-  </body>
+            new Promise((resolve) => {
+                setTimeout(() => {
+                    document.getElementById("output").textContent = `Result: ${number}`;
+                    resolve(number);
+                }, 2000);
+            })
+            .then((result) => {
+                return new Promise((resolve) => {
+                    setTimeout(() => {
+                        const multiplied = result * 2;
+                        document.getElementById("output").textContent = `Result: ${multiplied}`;
+                        resolve(multiplied);
+                    }, 2000);
+                });
+            })
+            .then((result) => {
+                return new Promise((resolve) => {
+                    setTimeout(() => {
+                        const subtracted = result - 3;
+                        document.getElementById("output").textContent = `Result: ${subtracted}`;
+                        resolve(subtracted);
+                    }, 1000);
+                });
+            })
+            .then((result) => {
+                return new Promise((resolve) => {
+                    setTimeout(() => {
+                        const divided = result / 2;
+                        document.getElementById("output").textContent = `Result: ${divided}`;
+                        resolve(divided);
+                    }, 1000);
+                });
+            })
+            .then((result) => {
+                return new Promise((resolve) => {
+                    setTimeout(() => {
+                        const added = result + 10;
+                        document.getElementById("output").textContent = `Final Result: ${added}`;
+                    }, 1000);
+                });
+            });
+        });
+    </script>
+</body>
 </html>
+
